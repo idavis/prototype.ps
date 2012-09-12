@@ -1,0 +1,3 @@
+[submodule "src/Archetype"]
+	path = src/Archetype
+	url = git@github.com:idavis/Archetype.git
