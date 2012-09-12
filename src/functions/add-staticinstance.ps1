@@ -31,12 +31,9 @@ function Add-StaticInstance {
     $backingObject = $null
     if($PSVersionTable.CLRVersion.Major -lt 4) {
       $backingObject = (New-Object object)
-
     } else {
-      if(@(try{[Prototype.Ps.PrototypalObject]}catch{}).Length -eq 0) {
-        Add-Type -Path "$here\Prototype.cs" -ReferencedAssemblies @("System.Core", "Microsoft.CSharp")
-      }
-      $backingObject = (New-Object Prototype.Ps.PrototypalObject)
+	  Import-PrototypalObject
+      $backingObject = (New-Object Archetype.PrototypalObject)
     }
     $instance = [PSObject]::AsPSObject($backingObject)
     $instance.PSObject.TypeNames.Insert(0,$key)

@@ -56,33 +56,9 @@ function New-Prototype {
       $prototype = [PSObject]::AsPSObject($baseObject)
       $prototype.PSObject.TypeNames.Insert(0,"Prototype")
     } else {
-      if(@(try{[Prototype.Ps.PrototypalObject]}catch{}).Length -eq 0) {
-        Add-Type -Path "$here\Prototype.cs" -ReferencedAssemblies @("System.Core", "Microsoft.CSharp")
-      }
-      $TryInvokeMissingMemberCallback =  { 
-        param([Dynamic.InvokeMemberBinder]$binder, [object[]] $args, [ref][object] $result)
-        Write-Host "Method Missing: Attempted to call $($binder.Name) with $($args -join ', ' )"
-        $result=$null
-        $true
-      }
-      $TryInvokeMissingGetMemberCallback = {
-        param([Dynamic.GetMemberBinder]$binder, [ref] $result)
-        Write-Host $binder
-        Write-Host "Method Missing: Attempted to get property $($binder.Name)"
-        $result=$null
-        $true
-      }
-      $TryInvokeMissingSetMemberCallback = {
-        param([Dynamic.SetMemberBinder]$binder, $value)
-        Write-Host $binder
-        Write-Host "Method Missing: Attempted to set property $($binder.Name) to $($value|Out-String)"
-        $true
-      }
+      Import-PrototypalObject
 	  $pso = [PSObject]::AsPSObject($baseObject)
-      $dispatcher = (New-Object Prototype.Ps.PrototypalObject -ArgumentList $pso)
-      #$dispatcher.TryInvokeMemberMissing = $TryInvokeMissingMemberCallback
-      #$dispatcher.TryGetMemberMissing = $TryInvokeMissingGetMemberCallback
-      #$dispatcher.TrySetMemberMissing = $TryInvokeMissingSetMemberCallback
+      $dispatcher = (New-Object Archetype.PrototypalObject -ArgumentList $pso)
       $prototype = [PSObject]::AsPSObject($dispatcher)
     }
     

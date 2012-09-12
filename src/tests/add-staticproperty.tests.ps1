@@ -3,6 +3,7 @@ $sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path).Replace(".tests.", ".")
 . "$here\_Common.ps1"
 . "$here\..\functions\$sut"
 
+
 function new-person {
   $prototype = New-Prototype
   $prototype | Update-TypeName
