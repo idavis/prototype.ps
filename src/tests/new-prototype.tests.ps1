@@ -27,7 +27,7 @@ Describe "Ensure-PrototypesHaveTheProperBaseObject" {
 
 Describe "Ensure-HashBasedPrototypesHaveHashBehavior" {
   It "should add properties on the fly" {
-    $prototype = new-prototype @{}
+    [PSObject]$prototype = new-prototype @{}
     $prototype.foo = 5
     $prototype.foo | Should Be 5
   }
@@ -35,7 +35,7 @@ Describe "Ensure-HashBasedPrototypesHaveHashBehavior" {
 
 Describe "Ensure-ExpandoObjectBasedPrototypesHaveHashBehavior" {
   It "should add properties on the fly" {
-    $prototype = new-prototype (new-object Dynamic.ExpandoObject)
+    [PSObject]$prototype = new-prototype (new-object Dynamic.ExpandoObject)
     $prototype.foo = 5
     $prototype.foo | Should Be 5
   }
