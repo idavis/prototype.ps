@@ -46,25 +46,23 @@ function New-HashBasedObject {
 
 #>
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
-function New-Prototype {
+filter New-Prototype {
   param(
     $baseObject = (new-object object)
   )
-  process {
-    $prototype = $null
-    if($PSVersionTable.CLRVersion.Major -lt 4) {
-      $prototype = [PSObject]::AsPSObject($baseObject)
-      $prototype.PSObject.TypeNames.Insert(0,"Prototype")
-    } else {
-      Import-PrototypalObject
-	  $pso = [PSObject]::AsPSObject($baseObject)
-      $dispatcher = (New-Object Archetype.PrototypalObject $pso)
-      $prototype = [PSObject]::AsPSObject($dispatcher)
-    }
-    
-    $prototype | Add-StaticInstance
-    $prototype
+  if($PSVersionTable.CLRVersion.Major -lt 4) {
+    [PSObject]$prototype = [PSObject]::AsPSObject($baseObject)
+    $prototype.PSObject.TypeNames.Insert(0,"Prototype")
+	return $prototype
   }
+  
+  Import-PrototypalObject
+  $pso = [PSObject]::AsPSObject($baseObject)
+  $dispatcher = (New-Object Archetype.PrototypalObject $pso)
+  $prototype = [PSObject]::AsPSObject($dispatcher)
+  
+  $prototype | Add-StaticInstance
+  $prototype
 }
 
 
