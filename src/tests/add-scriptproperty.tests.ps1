@@ -25,33 +25,37 @@ function new-dummy {
 
 Describe "Ensure-ReadOnlyPropertiesAreResolved" {
   It "should use the supplied scriptblock to access the value for a property" {
-    (new-dummy).Radius.should.be(3)
+    (new-dummy).Radius | Should Be 3
   }
   It "should be able to self reference proxied variables and the prototype object" {
-   (new-dummy).Diameter.should.be(6)
+   (new-dummy).Diameter | Should Be 6
   }
 }
 
 Describe "Ensure-ReadWritePropertiesOnTheBaseAreResolved" {
   It "should use the default value when not set" {
-    (new-dummy).Age.should.be(3)
+    (new-dummy).Age | Should Be 3
   }
   It "should use the value passed into the base" {
-    (new-dummy 42).Age.should.be(42)
+    (new-dummy 42).Age | Should Be 42
   }
   It "should use the value passed into the setter" {
-    (new-dummy 42) | %{$_.Age = 24 } | % { $_.Age.should.be(24) }
+    $dummy = (new-dummy 42)
+	$dummy.Age = 24
+	$dummy.Age | Should Be 24
   }
 }
 
 Describe "Ensure-ReadWritePropertiesOnThePrototypeAreResolved" {
   It "should use the default value when not set" {
-    (new-dummy).AgeProxy.should.be(3)
+    (new-dummy).AgeProxy | Should Be 3
   }
   It "should use the value passed into the base" {
-    (new-dummy 42).AgeProxy.should.be(42)
+    (new-dummy 42).AgeProxy | Should Be 42
   }
   It "should use the value passed into the setter" {
-    (new-dummy 42) | %{$_.AgeProxy = 24 } | % { $_.AgeProxy.should.be(24) }
+    $dummy = (new-dummy 42)
+	$dummy.AgeProxy = 24 
+	$dummy.AgeProxy | Should Be 24
   }
 }

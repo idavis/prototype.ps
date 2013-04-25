@@ -33,7 +33,7 @@ function Add-StaticInstance {
       $backingObject = (New-Object object)
     } else {
 	  Import-PrototypalObject
-      $backingObject = (New-Object Archetype.PrototypalObject)
+      $backingObject = (New-Object Archetype.PrototypalObject (New-Object PSObject))
     }
     $instance = [PSObject]::AsPSObject($backingObject)
     $instance.PSObject.TypeNames.Insert(0,$key)

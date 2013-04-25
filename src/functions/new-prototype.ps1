@@ -58,7 +58,7 @@ function New-Prototype {
     } else {
       Import-PrototypalObject
 	  $pso = [PSObject]::AsPSObject($baseObject)
-      $dispatcher = (New-Object Archetype.PrototypalObject -ArgumentList $pso)
+      $dispatcher = (New-Object Archetype.PrototypalObject $pso)
       $prototype = [PSObject]::AsPSObject($dispatcher)
     }
     

@@ -12,10 +12,10 @@ function new-dummy {
 
 Describe "Ensure-FunctionsAreAdded" {
   It "should add functions with return values" {
-    (new-dummy).HasRetVal().should.be(5)
+    (new-dummy).HasRetVal() | Should Be 5
   }
   It "should add functions that take parameters" {
-    (new-dummy).CanPassParameters(4).should.be(4)
+    (new-dummy).CanPassParameters(4) | Should Be 4
   }
 }
 
@@ -29,9 +29,9 @@ function new-dummy2 {
 
 Describe "Ensure-FunctionsCanBeReplaced" {
   It "should replace methods with the same name but different parameters" {
-    (new-dummy2).CanPassParameters().should.be(5)
+    (new-dummy2).CanPassParameters() | Should Be 5
   }
   It "should use null when no property value is supplied" {
-    (new-dummy2).HasRetVal(4).should.be(4)
+    (new-dummy2).HasRetVal(4) | Should Be 4
   }
 }

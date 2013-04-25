@@ -12,9 +12,9 @@ function new-person {
 
 Describe "Ensure-AutoPropertiesHaveTheirSuppliedOrDefaultValues" {
   It "should use the supplied value for a property" {
-    (new-person).Name.should.be("John Doe")
+    (new-person).Name | Should Be "John Doe"
   }
   It "should use null when no property value is supplied" {
-    (new-person) | ? { ($_.Age -ne $null) } | % { throw New-Object PesterFailure($null,$_.Age) }
+    (new-person).Age  | Should Be $null
   }
 }

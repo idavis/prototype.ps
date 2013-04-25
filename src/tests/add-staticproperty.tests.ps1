@@ -20,10 +20,10 @@ function new-otherperson {
 
 Describe "Ensure-StaticPropertiesHaveTheirSuppliedOrDefaultValues" {
   It "should use the supplied value for a property" {
-    (new-person).Name.should.be("John Doe")
+    (new-person).Name | Should Be "John Doe"
   }
   It "should use null when no property value is supplied" {
-    (new-person) | ? { ($_.Age -ne $null) } | % { throw New-Object PesterFailure($null,$_.Age) }
+    (new-person).Age | Should Be $null
   }
 }
 
@@ -31,20 +31,20 @@ Describe "Ensure-StaticPropertiesShareValuesAcrossInstances" {
   It "should use the supplied value for all instances" {
     $p1 = new-person
     $p2 = new-person
-    $p1.Name.should.be("John Doe")
-    $p2.Name.should.be("John Doe")
+    $p1.Name | Should Be "John Doe"
+    $p2.Name | Should Be "John Doe"
   }
   It "changing the value on one instance should change the value on all others" {
     $p1 = new-person
     $p2 = new-person
     $p1.Name = "Ian"
-    $p1.Name.should.be("Ian")
-    $p2.Name.should.be("Ian")
+    $p1.Name | Should Be "Ian"
+    $p2.Name | Should Be "Ian"
   }
 }
 
 Describe "Ensure-StaticPropertiesCanBeCalledFromDerivedClasses" {
   It "should use the supplied value for all instances" {
-    (new-otherperson).Name.should.be("John Doe")
+    (new-otherperson).Name | Should Be "John Doe"
   }
 }
